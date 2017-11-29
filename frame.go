@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"sort"
-	"strings"
 )
 
 var InvalidFrame = errors.New("stomp: invalid frame")
@@ -42,7 +41,7 @@ func MarshalFrame(frame *Frame) []byte {
 	return buf.Bytes()
 }
 
-// Unmarshal input bytes into a structured STOMP frame. 
+// Unmarshal input bytes into a structured STOMP frame.
 func UnmarshalFrame(input []byte) (*Frame, error) {
 	buf := bytes.NewBuffer(input)
 	command, err := buf.ReadBytes('\n')
@@ -78,26 +77,4 @@ func UnmarshalFrame(input []byte) (*Frame, error) {
 		Body:    body,
 	}
 	return frame, nil
-}
-
-// Encode the header name or value. 
-func EncodeHeader(input string) string {
-	r := strings.NewReplacer(
-		"\r", "\\r",
-		"\n", "\\n",
-		":", "\\c",
-		"\\", "\\\\",
-	)
-	return r.Replace(input)
-}
-
-// Decode the header name or value.
-func DecodeHeader(input string) string {
-	r := strings.NewReplacer(
-		"\\r", "\r",
-		"\\n", "\n",
-		"\\c", ":",
-		"\\\\", "\\",
-	)
-	return r.Replace(input)
 }

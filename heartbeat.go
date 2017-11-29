@@ -6,6 +6,9 @@ import (
 	"time"
 )
 
+// HeartBeatFrame is the complete message to indicate alive-ness.
+var HeartBeatFrame = []byte{'\n'}
+
 // Parse "heart-beat" header into x and y.
 //   x = sender can guarantee sending every x
 //   y = would like to receive every y
